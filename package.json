@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:jjalonso/apex-timesheet.git",
-  "author": ["kernel.no.found@gmail.com", "sergiofc@hotmail.es"],
-  "license": "MIT"
+  "author": [
+    "kernel.no.found@gmail.com",
+    "sergiofc@hotmail.es"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
 }
