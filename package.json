@@ -2,6 +2,7 @@
   "name": "apex-timesheet",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "repository": "git@github.com:jjalonso/apex-timesheet.git",
   "author": [
     "kernel.no.found@gmail.com",
