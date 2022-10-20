@@ -1,9 +1,15 @@
-const { readFile, utils } = require('xlsx');
+const Excel = require('exceljs');
+const workbook = new Excel.Workbook();
 
-//Read all Book
-const onReadBook = file => readFile(file);
+const handleReadFile = wbName => workbook.xlsx.readFile(wbName)
 
-//Read only a sheet
-const onReadSheet = (wb, ws) => utils.sheet_to_json(wb.Sheets[ws]);
+const handleWriteFile = ({number_sheet = 1, number_row = 1, number_cell = 1, value = ''}) => {
+	const worksheet = workbook.getWorksheet(number_sheet)
+	const row = worksheet.getRow(number_row)
+	row.getCell(number_cell).value = value
+	row.commit();
+};
 
-module.exports = { onReadBook, onReadSheet };
+const handleCreateWorkbook = name => workbook.xlsx.writeFile(name);
+
+module.exports = { handleReadFile, handleWriteFile, handleCreateWorkbook };
