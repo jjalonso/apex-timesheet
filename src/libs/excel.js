@@ -1,17 +1,21 @@
 import Excel from 'exceljs';
 
-export const addValueInWorksheeet = async ({ 
-	workbook_name, 
-	number_sheet, 
-	number_row, 
-	number_cell, 
+export const readWorkbook = name => {
+	const excel = new Excel.Workbook()
+	return excel.xlsx.readFile(name)
+};
+
+export const addValueToWorkbook = ({ 
+	workbook, 
+	sheetNumber, 
+	rowNumber, 
+	cellNumber, 
 	value 
 }) => {
-	const excel = new Excel.Workbook()
-	const workbook = await excel.xlsx.readFile(workbook_name)
-	const worksheet = workbook.getWorksheet(number_sheet)
-	const row = worksheet.getRow(number_row)
-	row.getCell(number_cell).value = value
-	row.commit()
-	return workbook.xlsx.writeFile(workbook_name)
+	const worksheet = workbook.getWorksheet(sheetNumber)
+	const row = worksheet.getRow(rowNumber)
+	row.getCell(cellNumber).value = value
+	return row.commit()
 };
+
+export const writeWorkbook = (workbook, name) => workbook.xlsx.writeFile(name)

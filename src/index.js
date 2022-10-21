@@ -1,5 +1,5 @@
 import prompt from 'prompts';
-import * as excel from './libs/excel.js'
+import * as excel from './libs/excel.js';
 import { getWeekRange, getWeekDays, displayEasyDate, isWeekend } from './libs/dates.js';
 
 const WEEKS = [
@@ -40,9 +40,17 @@ const questions = [
   }
 ];
 
-
 const answers = await prompt(questions);
-// console.log(answers)
+
+addValueInWorksheeet({ 
+  workbook_name: 'base.xlsx',
+  number_sheet: 1, 
+  number_row: 1, 
+  number_cell: 2, 
+  value: 'sergio' 
+});
+
+console.log(answers)
 // await excel.handleReadFile('./template/base.xlsx');
 // excel.handleWriteFile(1, 5, 3, 'PRUEBA')
 // excel.handleCreateWorkbook('output.xlsx')

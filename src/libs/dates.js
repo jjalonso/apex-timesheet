@@ -5,7 +5,7 @@ moment.updateLocale('en', {
       dow : 1, // Monday as first day of the week.
     }
   });
-  
+
 export const getWeekDays = () => moment.weekdays(true);
 
 export const getWeekRange = (week = 0) => {
