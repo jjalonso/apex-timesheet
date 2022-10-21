@@ -1,6 +1,6 @@
 import prompt from 'prompts';
-
-import { getWeekRange } from './libs/dates.js';
+import * as excel from './libs/excel.js'
+import { getWeekRange, getWeekDays, displayEasyDate, isWeekend } from './libs/dates.js';
 
 const WEEKS = [
   getWeekRange(),
@@ -9,25 +9,40 @@ const WEEKS = [
   getWeekRange(-3)
 ];
 
-const DATE_DISPLAY_FORMAT = 'Do MMM/YYYY';
-
 const questions = [
-    {
-      type: 'select',
-      name: 'week',
-      message: 'Pick a week',
-      choices: WEEKS.map((week, i) => ({
-          title: `${week[0].format(DATE_DISPLAY_FORMAT)} > ${week[6].format(DATE_DISPLAY_FORMAT)}`,
-          value: week,
-          description: i === 0 ? '* Current week' : undefined
-      }))
-    },
-    {
-      type: 'text',
-      name: 'description',
-      message: `What have you been working on?`,
-      validate: (v) => v ? true : '* Mandatory.'
-    },
+  {
+    type: 'select',
+    name: 'week',
+    message: 'Pick a week',
+    choices: WEEKS.map((week, i) => ({
+      title: `${displayEasyDate(week[0])} > ${displayEasyDate(week[6])}`,
+      value: week,
+      description: i === 0 ? '* Current week' : undefined
+    }))
+  },
+  {
+    type: 'text',
+    name: 'description',
+    message: `What have you been working on?`,
+    validate: (v) => v ? true : '* Mandatory.'
+  },
+  ...getWeekDays().map(day => ({
+    type: 'number',
+    name: `tracked${day}`,
+    initial: isWeekend(day) ? 0 : 8, 
+    message: `${day} hours?`,
+    validate: value => value < 0 || value > 8 ? `Only 0 to 8 allowed` : true
+  })),
+  {
+    type: 'confirm',
+    name: 'confirm',
+    message: 'Do you want to send this timesheet?',
+  }
 ];
 
-const answers = await prompt(questions, {onSubmit:() => console.log('---> TODO: Send Email')});
+
+const answers = await prompt(questions);
+// console.log(answers)
+// await excel.handleReadFile('./template/base.xlsx');
+// excel.handleWriteFile(1, 5, 3, 'PRUEBA')
+// excel.handleCreateWorkbook('output.xlsx')

@@ -1,22 +1,14 @@
-const XLSX =  require('xlsx');
+import Excel from 'exceljs';
 
-  //For input file
-  const onChangeUpload = event => {
-    const fileList = event.target.files;
-    for (let i = 0; i < fileList.length; i ++) return (fileList[i]);
-  };
+const workbook = new Excel.Workbook();
 
-  //Read all Book
-  const onReadBook = async file => {
-    const data = await file.arrayBuffer();
-    const readBookXlsx = XLSX.readFile(data);
-    return readBookXlsx;
-  };
+export const handleReadFile = wbName => workbook.xlsx.readFile(wbName)
 
-  //Read only a sheet
-  const onReadSheet = (wb, ws) => {
-    const readSheetXlsx = XLSX.utils.sheet_to_json(wb.Sheets[ws]);
-    return readSheetXlsx;
-  };
+export const handleWriteFile = ({number_sheet = 1, number_row = 1, number_cell = 1, value = ''}) => {
+	const worksheet = workbook.getWorksheet(number_sheet)
+	const row = worksheet.getRow(number_row)
+	row.getCell(number_cell).value = value
+	row.commit();
+};
 
-  module.exports = { onChangeUpload, onReadBook, onReadSheet };
+export const handleCreateWorkbook = name => workbook.xlsx.writeFile(name);
