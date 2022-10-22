@@ -5,12 +5,12 @@ export const readWorkbook = name => {
 	return excel.xlsx.readFile(name)
 };
 
-export const addValueToWorkbook = ({ 
-	workbook, 
-	sheetNumber, 
-	rowNumber, 
-	cellNumber, 
-	value 
+export const addValueToWorkbook = ({
+	workbook,
+	sheetNumber,
+	rowNumber,
+	cellNumber,
+	value
 }) => {
 	const worksheet = workbook.getWorksheet(sheetNumber)
 	const row = worksheet.getRow(rowNumber)
@@ -18,4 +18,13 @@ export const addValueToWorkbook = ({
 	return row.commit()
 };
 
-export const writeWorkbook = (workbook, name) => workbook.xlsx.writeFile(name)
+export const writeWorkbook = (workbook, name) => {
+	workbook.xlsx.writeFile(name)
+	return workbook.calcProperties.fullCalcOnLoad = true;
+}
+
+export const schemaWorkbook = [
+	{ col: 'Date', value: 3 },
+	{ col: 'Hours Worked', value: 5 },
+	{ col: 'Notes', value: 6 },
+];

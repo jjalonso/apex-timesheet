@@ -1,6 +1,6 @@
 import prompt from 'prompts';
-import * as excel from './libs/excel.js';
 import { getWeekRange, getWeekDays, displayEasyDate, isWeekend } from './libs/dates.js';
+import * as excel from './libs/excel.js';
 
 const WEEKS = [
   getWeekRange(),
@@ -29,7 +29,7 @@ const questions = [
   ...getWeekDays().map(day => ({
     type: 'number',
     name: `tracked${day}`,
-    initial: isWeekend(day) ? 0 : 8, 
+    initial: isWeekend(day) ? 0 : 8,
     message: `${day} hours?`,
     validate: value => value < 0 || value > 8 ? `Only 0 to 8 allowed` : true
   })),
@@ -42,15 +42,42 @@ const questions = [
 
 const answers = await prompt(questions);
 
-addValueInWorksheeet({ 
-  workbook_name: 'base.xlsx',
-  number_sheet: 1, 
-  number_row: 1, 
-  number_cell: 2, 
-  value: 'sergio' 
+const formalizedAnswers = [
+  { date: answers.week[0], hours: answers.trackedMonday, description: answers.description },
+  { date: answers.week[1], hours: answers.trackedTuesday, description: answers.description },
+  { date: answers.week[2], hours: answers.trackedWednesday, description: answers.description },
+  { date: answers.week[3], hours: answers.trackedThursday, description: answers.description },
+  { date: answers.week[4], hours: answers.trackedFriday, description: answers.description },
+  // { date: answers.week[5], hours: answers.trackedSaturday, description: answers.description },
+  // { date: answers.week[6], hours: answers.trackedSunday, description: answers.description },
+];
+
+const path = new URL('./template/base.xlsx', import.meta.url);
+
+const workbook = await excel.readWorkbook(path);
+
+formalizedAnswers.forEach((elem, index) => {
+  excel.addValueToWorkbook({
+    workbook,
+    sheetNumber: 1,
+    rowNumber: index + 5,
+    cellNumber: 3,
+    value: elem.date
+  })
+  excel.addValueToWorkbook({
+    workbook,
+    sheetNumber: 1,
+    rowNumber: index + 5,
+    cellNumber: 5,
+    value: elem.hours
+  })
+  excel.addValueToWorkbook({
+    workbook,
+    sheetNumber: 1,
+    rowNumber: index + 5,
+    cellNumber: 6,
+    value: elem.description
+  })
 });
 
-console.log(answers)
-// await excel.handleReadFile('./template/base.xlsx');
-// excel.handleWriteFile(1, 5, 3, 'PRUEBA')
-// excel.handleCreateWorkbook('output.xlsx')
+excel.writeWorkbook(workbook, path)
