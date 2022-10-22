@@ -52,9 +52,10 @@ const formalizedAnswers = [
   // { date: answers.week[6], hours: answers.trackedSunday, description: answers.description },
 ];
 
-const path = new URL('./template/base.xlsx', import.meta.url);
+const pathBase = new URL('./template/base.xlsx', import.meta.url);
+const pathOutput = new URL('./output/output.xlsx', import.meta.url);
 
-const workbook = await excel.readWorkbook(path);
+const workbook = await excel.readWorkbook(pathBase);
 
 formalizedAnswers.forEach((elem, index) => {
   excel.addValueToWorkbook({
@@ -80,4 +81,4 @@ formalizedAnswers.forEach((elem, index) => {
   })
 });
 
-excel.writeWorkbook(workbook, path)
+excel.writeWorkbook(workbook, pathOutput)
