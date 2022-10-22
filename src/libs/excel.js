@@ -19,8 +19,8 @@ export const addValueToWorkbook = ({
 };
 
 export const writeWorkbook = (workbook, name) => {
-	workbook.xlsx.writeFile(name)
-	return workbook.calcProperties.fullCalcOnLoad = true;
+	workbook.calcProperties.fullCalcOnLoad = true
+	return workbook.xlsx.writeFile(name)
 }
 
 export const schemaWorkbook = [

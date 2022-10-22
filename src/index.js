@@ -48,37 +48,37 @@ const formalizedAnswers = [
   { date: answers.week[2], hours: answers.trackedWednesday, description: answers.description },
   { date: answers.week[3], hours: answers.trackedThursday, description: answers.description },
   { date: answers.week[4], hours: answers.trackedFriday, description: answers.description },
-  // { date: answers.week[5], hours: answers.trackedSaturday, description: answers.description },
-  // { date: answers.week[6], hours: answers.trackedSunday, description: answers.description },
 ];
 
 const pathBase = new URL('./template/base.xlsx', import.meta.url);
 const pathOutput = new URL('./output/output.xlsx', import.meta.url);
 
-const workbook = await excel.readWorkbook(pathBase);
+try {
+  const workbook = await excel.readWorkbook(pathBase);
 
-formalizedAnswers.forEach((elem, index) => {
-  excel.addValueToWorkbook({
-    workbook,
-    sheetNumber: 1,
-    rowNumber: index + 5,
-    cellNumber: 3,
-    value: elem.date
-  })
-  excel.addValueToWorkbook({
-    workbook,
-    sheetNumber: 1,
-    rowNumber: index + 5,
-    cellNumber: 5,
-    value: elem.hours
-  })
-  excel.addValueToWorkbook({
-    workbook,
-    sheetNumber: 1,
-    rowNumber: index + 5,
-    cellNumber: 6,
-    value: elem.description
-  })
-});
+  formalizedAnswers.forEach((elem, index) => {
+    excel.addValueToWorkbook({
+      workbook,
+      sheetNumber: 1,
+      rowNumber: index + 5,
+      cellNumber: 3,
+      value: elem.date
+    })
+    excel.addValueToWorkbook({
+      workbook,
+      sheetNumber: 1,
+      rowNumber: index + 5,
+      cellNumber: 5,
+      value: elem.hours
+    })
+    excel.addValueToWorkbook({
+      workbook,
+      sheetNumber: 1,
+      rowNumber: index + 5,
+      cellNumber: 6,
+      value: elem.description
+    })
+  });
 
-excel.writeWorkbook(workbook, pathOutput)
+  excel.writeWorkbook(workbook, pathOutput)
+} catch (e) { console.error('Oops... Look like we had an issue generating the timesheet', e) }
