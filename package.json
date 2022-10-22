@@ -1,0 +1,17 @@
+{
+  "name": "apex-timesheet",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "repository": "git@github.com:jjalonso/apex-timesheet.git",
+  "author": "kernel.no.found@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "exceljs": "^4.3.0",
+    "moment": "^2.29.4",
+    "prompts": "^2.4.2"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  }
+}
